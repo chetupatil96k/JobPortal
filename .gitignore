@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Build files
+dist/
+build/
+
+# Logs
+npm-debug.log*
