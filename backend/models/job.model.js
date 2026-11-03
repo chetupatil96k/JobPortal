@@ -1,5 +1,5 @@
-
 import mongoose from "mongoose";
+
 
 const jobSchema = mongoose.Schema({
     title:{
@@ -12,6 +12,10 @@ const jobSchema = mongoose.Schema({
     },
     location:{
         type:String,
+        required:true
+    },
+    experienceLevel:{
+        type:Number,
         required:true
     },
     salary:{
@@ -28,17 +32,17 @@ const jobSchema = mongoose.Schema({
     },
     company:{
         type:mongoose.Schema.Types.ObjectId,
-        Ref:'Company',
+        ref:"Company",
         required:true
     },
     createdBy:{
         type:mongoose.Schema.Types.ObjectId,
-        Ref:'User',
+        ref:"User",
         required:true
     },
     application:{
         type:mongoose.Schema.Types.ObjectId,
-        Ref:'Application',
+        ref:"Application",
     }
 
     

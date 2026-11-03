@@ -6,12 +6,10 @@ const CompanySchema = mongoose.Schema({
         required:true
     },
     description:{
-        type:String,
-        required:true
+        type:String
     },
     website:{
-        type:String,
-        required:true   
+        type:String   
     },
     location:{
         type:String,

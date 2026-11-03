@@ -96,6 +96,9 @@ export const login = async (req, res) => {
             email: normalizedEmail
         });
 
+        console.log("Entered email:", normalizedEmail);
+console.log("User found:", !!user);
+
         if (!user) {
             return res.status(401).json({
                 message: "Incorrect email or password",
@@ -108,6 +111,7 @@ export const login = async (req, res) => {
             password,
             user.password
         );
+          console.log("Password matched:", isPasswordMatch);
 
         if (!isPasswordMatch) {
             return res.status(401).json({
