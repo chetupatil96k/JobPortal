@@ -4,7 +4,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./utils/db.js";;
+import connectDB from "./utils/db.js";
+import userRoute from "./routes/user.route.js"
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,11 @@ const corsOptions = {
 };
 
 const PORT = process.env.PORT || 3000;
+
+//api
+
+
+app.use("/api/v1/user",userRoute)
 
 
 
