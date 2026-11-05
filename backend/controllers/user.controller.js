@@ -2,11 +2,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
-
+import cloudinary from "../utils/cloudinary.js";
 // REGISTER USER
 export const register = async (req, res) => {
     try {
-        const { fullname, email, phoneNumber, password, role } = req.body;
+        const { fullname, email, phoneNumber, password, role } = req.body || {};
 
         // Validate required fields
         if (!fullname || !email || !phoneNumber || !password || !role) {
@@ -24,8 +24,9 @@ export const register = async (req, res) => {
             });
         }
 
-        // Check whether user already exists
+        // Check existing user
         const normalizedEmail = email.trim().toLowerCase();
+
         const existingUser = await User.findOne({
             email: normalizedEmail
         });
@@ -37,20 +38,56 @@ export const register = async (req, res) => {
             });
         }
 
+        // Upload profile image to Cloudinary
+        let profileImage = "";
+
+        if (req.file) {
+            const uploadResult = await new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: "JobPortal/ProfileImages",
+                        resource_type: "image"
+                    },
+                    (error, result) => {
+                        if (error) {
+                            return reject(error);
+                        }
+
+                        resolve(result);
+                    }
+                );
+
+                stream.end(req.file.buffer);
+            });
+
+            profileImage = uploadResult.secure_url;
+        }
+
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create user
-        await User.create({
+        const user = await User.create({
             fullname: fullname.trim(),
             email: normalizedEmail,
             phoneNumber: String(phoneNumber),
             password: hashedPassword,
-            role
+            role,
+            profile: {
+                profileImage
+            }
         });
 
         return res.status(201).json({
             message: "Account created successfully",
+            user: {
+                _id: user._id,
+                fullname: user.fullname,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                role: user.role,
+                profile: user.profile
+            },
             success: true
         });
 
@@ -65,7 +102,8 @@ export const register = async (req, res) => {
         }
 
         return res.status(500).json({
-            message: "Internal server error",
+            message: "Registration failed",
+            error: error.message,
             success: false
         });
     }
