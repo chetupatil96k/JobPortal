@@ -14,11 +14,14 @@ import {
 
 import { Button } from "../ui/button";
 import { User2, LogOut } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   // Temporary user data
   // Later, replace this with Redux or Context API user data.
-  const user = false;
+
+  const {user}= useSelector(store=>store.auth);
+  
 
   return (
     <nav className="w-full bg-white shadow-md">
@@ -44,7 +47,7 @@ export default function Navbar() {
 
             <li>
               <Link
-                to="/jobs"
+                to="/Jobs"
                 className="hover:text-[#F83002] transition-colors"
               >
                 Jobs
@@ -53,7 +56,7 @@ export default function Navbar() {
 
             <li>
               <Link
-                to="/browse"
+                to="/Browse"
                 className="hover:text-[#F83002] transition-colors"
               >
                 Browse

@@ -9,6 +9,10 @@ import Signup from '../src/components/auth/signup'
 import Home from './components/Home'
 import { Toaster } from "sonner";
 import{createBrowserRouter, RouterProvider, Route, Routes, Link} from 'react-router-dom'  
+import Jobs from './components/Jobs'
+import Browse from './components/Browse'
+import Profile from './components/Profile'
+
 
 const appRouter = createBrowserRouter([
   {
@@ -22,6 +26,18 @@ const appRouter = createBrowserRouter([
   {
     path:"/signup",
     element:<Signup />
+  },
+  {
+    path:"/jobs",
+    element:<Jobs />
+  },
+  {
+    path:"/browse",
+    element:<Browse />
+  },
+  {
+    path:"/profile",
+    element:<Profile />
   }
 ])
 
